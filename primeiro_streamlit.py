@@ -334,7 +334,7 @@ def redes_neurais(df,contador):
         model.add(Dense(30))
         model.add(Dense(1))
 
-        model.add(Dense(units=1,activation='linear'))
+        model.add(Dense(units=1,activation='sigmoid'))
 
         #Compile the model
         model.compile(optimizer='rmsprop', loss='mean_squared_error',metrics=['mean_absolute_error'])
@@ -404,8 +404,8 @@ def redes_neurais(df,contador):
     plt.figure(figsize=(16,8))
     plt.title('Modelo de Redes Neurais',fontsize=26)
     plt.xlabel('Data', fontsize=22)
-    plt.xticks(fontsize=16)
-    plt.plot(train['Adj Close'])
+    plt.xticks(fontsize=14, rotation=70)
+    #plt.plot(train['Adj Close'])
     plt.plot(new_data['Predictions'])
     plt.legend(['Dado real', 'Previsão'], loc='lower right')
     st.pyplot()
@@ -453,7 +453,7 @@ def Monte_Carlo(df):
     plt.figure(figsize=(16,8))
     plt.title('Modelo de Monte Carlo',fontsize=26)
     plt.xlabel('Data', fontsize=22)
-    plt.xticks(fontsize=12)
+    plt.xticks(fontsize=14, rotation=70)
     plt.plot(previsao4[zp[0]])
     plt.plot(previsao4[zp[1]])
     plt.plot(previsao4[zp[2]])
