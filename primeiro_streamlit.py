@@ -55,7 +55,7 @@ if(acao == 'EURO'):
 modelo = st.sidebar.selectbox('Selecione o modelo preditivo',
                               ('Monte Carlo','Redes Neurais'))
 
-x = np.arange(3,31)
+x = np.arange(3,41)
 tempo = st.sidebar.select_slider('Selecione o tempo de predição em dias',options=list(x))
 col1, col2, col3 = st.sidebar.beta_columns(3)
 
