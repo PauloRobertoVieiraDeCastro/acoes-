@@ -62,6 +62,8 @@ col1, col2, col3 = st.sidebar.beta_columns(3)
 
 submit = col2.button('Calcular')
 
+st.sidebar.header("Indicadores")
+
 
 #--------------------------------------ANALISE ESTATISTICA BASICA-----------------------------------------------------------------------------------------------
 
@@ -234,22 +236,36 @@ act = ('PETR3.SA', 'PETR4.SA','CSAN3.SA','BRKM5.SA','UGPA3.SA',"EQTL3.SA","BBAS3
 
 if(acao in act):
     #calculando indices por web scraping ------------------------------------------------
-    url = "https://br.financas.yahoo.com/quote/"+acao
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    h = soup.find_all('span', class_="Trsdu(0.3s)")
-
-    IPL = str(h).split(' data-reactid="93">')[1].split("</")[0]
-    st.sidebar.write("Índice de preço sobre lucro (P/L): "+IPL)
-
-    LPA = str(h).split(' data-reactid="98">')[1].split("</")[0]
-    st.sidebar.write("Índice lucro por ação (LPA): "+LPA)
+    #h = soup.find_all('span', class_="Trsdu(0.3s)")
 
 
-
-    CAPT = str(h).split(' data-reactid="83">')[1].split("</")[0]
-    st.sidebar.write("Capitalização de mercado: "+CAPT)
-
+    jp = "https://br.financas.yahoo.com/quote/"+acao+"/key-statistics"
+    page1 = requests.get(jp)
+    soup1 = BeautifulSoup(page1.content, 'html.parser')
+    #h1 = soup1.find_all('td')
+    pl = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="35">')[1].split('</td')[0]#str(h1).split(' class="Ta(end) Fw(600) Lh(14px)" data-reactid="107" data-test="DIVIDEND_AND_YIELD-value">')[1].split('</td')[0]
+    market = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="28">')[1].split('</td')[0]
+    capt = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="21">')[1].split('</td')[0]
+    valor_empresa_receita = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="72">')[1].split('</td')[0]
+    ebidta = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="79">')[1].split('</td')[0]
+    div_yield = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="263">')[1].split('</td')[0]
+    f_c_op = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="507">')[1].split('</td')[0]
+    f_c_a = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="514">')[1].split('</td')[0]
+    lpa = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="437">')[1].split('</td')[0]
+    LL = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="430">')[1].split('</td')[0]
+    dbt_pat = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="479">')[1].split('</td')[0]
+    #payout = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="285">')[1].split('</td')[0]
+    st.sidebar.write("Valor da empresa: "+market)
+    st.sidebar.write("Capitalização de mercado: "+capt)
+    st.sidebar.write("Lucro líquido: "+LL)
+    st.sidebar.write("P/L passado: "+pl)
+    st.sidebar.write("Lucro por ação: "+lpa)
+    st.sidebar.write("Valor da empresa/receita: "+valor_empresa_receita)
+    st.sidebar.write("Valor da empresa/EBITDA: "+ebidta)
+    st.sidebar.write("Dividend yield: "+div_yield)
+    st.sidebar.write("Fluxo de caixa operacional: "+f_c_op)
+    st.sidebar.write("Fluxo de caixa livre alavancado: "+f_c_a)
+    st.sidebar.write("Débito total/Patrimônio líquido: "+dbt_pat)
     datak = pd.DataFrame()
     tickers = [acao,'^BVSP']
 ## Coletando os dados do Yahoo Finance no período estipulado (dados de fechamento)
