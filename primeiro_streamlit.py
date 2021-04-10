@@ -55,7 +55,7 @@ if(acao == 'EURO'):
 modelo = st.sidebar.selectbox('Selecione o modelo preditivo',
                               ('Monte Carlo','Redes Neurais'))
 
-x = np.arange(3,31)
+x = np.arange(3,41)
 tempo = st.sidebar.select_slider('Selecione o tempo de predição em dias',options=list(x))
 col1, col2, col3 = st.sidebar.beta_columns(3)
 
@@ -441,7 +441,7 @@ act2 = ('PETR3.SA', 'PETR4.SA','CSAN3.SA','BRKM5.SA','UGPA3.SA',"EQTL3.SA","BBAS
        'MGLU3.SA','LAME4.SA','LREN3.SA','RENT3.SA','GGBR4.SA','CCRO3.SA','EMBR3.SA',
        'SBSP3.SA','MRVE3.SA','CYRE3.SA','SANB11.SA','QUAL3.SA','JBSS3.SA',
        'MRFG3.SA','CIEL3.SA','RADL3.SA','BTOW3.SA','BPAC11.SA','ELET3.SA','USIM3.SA',
-       'IGTA3.SA','PRIO3.SA','BRML3.SA')
+       'IGTA3.SA','PRIO3.SA','BRML3.SA','KLBN11.SA')
 
 if(acao in act2):
     #calculando indices por web scraping ------------------------------------------------
@@ -466,13 +466,19 @@ if(acao in act2):
 
     try:
         ebidta = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="79">')[1].split('</td')[0]
-        st.sidebar.write("Valor da empresa/EBITDA: "+ebidta)
+        if(len(ebidta)<10):
+            st.sidebar.write("Valor da empresa/EBITDA: "+ebidta)
+        else:
+            pass
     except:
         pass
 
     try:
         pl = str(soup1.find_all('td', {'class': 'Fw(500) Ta(end) Pstart(10px) Miw(60px)'})).split(' data-reactid="35">')[1].split('</td')[0]#str(h1).split(' class="Ta(end) Fw(600) Lh(14px)" data-reactid="107" data-test="DIVIDEND_AND_YIELD-value">')[1].split('</td')[0]
-        st.sidebar.write("P/L passado: "+pl)
+        if(len(pl)<6):
+            st.sidebar.write("P/L passado: "+pl)
+        else:
+            pass
     except:
         pass
 
